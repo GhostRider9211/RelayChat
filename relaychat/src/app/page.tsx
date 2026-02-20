@@ -1,7 +1,24 @@
-
-
+import Navbar from "@/components/base/Navbar";
+import HeroSection from "@/components/base/HeroSection";
+import FeatureSection from "@/components/base/FeatureSection";
+import Footer from "@/components/base/Footer";
+import UserReviews from "@/components/base/UserReviews";
 export default function Home() {
-  return (
-    <div className="text-xl font-bold font bg-red-600 text-blue-400 text-center w-full">Hello Bhai log</div>
+   return (
+    <div className="min-h-screen flex flex-col ">
+      {/* Header */}
+      <Navbar />
+      {/* Hero Section */}
+      <HeroSection />
+
+      {/* Features Section */}
+      <FeatureSection />
+
+      {/* User Reviews Section */}
+      <UserReviews />
+
+      {/* Footer */}
+      <Footer />
+    </div>
   );
 }
