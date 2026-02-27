@@ -2,19 +2,14 @@ import { ISODateString, NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
-export interface CustomUser {
-  id?: string | null;
+export type CustomUser = {
+  id?: string;
   name?: string | null;
   email?: string | null;
   image?: string | null;
-  provider?: string | null;
-  token?: string | null;
-}
-
-export interface CustomSession {
-  user: CustomUser;
-  expires: ISODateString;
-}
+  provider?: string;
+  token?: string;
+};
 
 export const authOption: NextAuthOptions = {
   pages: {

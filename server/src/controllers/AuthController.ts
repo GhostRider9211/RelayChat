@@ -37,7 +37,12 @@ class AuthController {
           token:`Bearer ${token}`
         }
       })
-    } catch (error) {}
+    } catch (error) {
+      return response.status(500).json({
+        message:"Something went wrong",
+        error
+      })
+    }
   }
 }
 export default AuthController;

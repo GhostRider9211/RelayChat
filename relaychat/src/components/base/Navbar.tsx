@@ -6,7 +6,7 @@ import { CustomUser } from "@/app/api/auth/[...nextauth]/options";
 import { Button } from "../ui/button";
 import LoginModal from "../auth/LoginModal";
 
-export default function Navbar({user}:{user:CustomUser}) {
+export default function Navbar({ user }: { user?: CustomUser | null }) {
   return (
     <nav className="p-6 flex justify-between items-center bg-white shadow-sm">
       <h1 className="text-xl md:text-2xl font-extrabold">QuickChat</h1>
@@ -14,8 +14,8 @@ export default function Navbar({user}:{user:CustomUser}) {
         <Link href="/">Home</Link>
         <Link href="#features">Features</Link>
         <Link href="/dashboard">
-            <Button>Dashboard</Button>
-          </Link>
+          <Button>Dashboard</Button>
+        </Link>
         {!user ? (
           <LoginModal />
         ) : (

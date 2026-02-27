@@ -3,11 +3,16 @@ import HeroSection from "@/components/base/HeroSection";
 import FeatureSection from "@/components/base/FeatureSection";
 import Footer from "@/components/base/Footer";
 import UserReviews from "@/components/base/UserReviews";
-export default function Home() {
-   return (
+import { getServerSession } from "next-auth";
+import { authOption, CustomUser } from "@/app/api/auth/[...nextauth]/options";
+
+export default async function Home() {
+  const session = await getServerSession(authOption);
+  const user = session?.user as CustomUser | null;
+  return (
     <div className="min-h-screen flex flex-col ">
       {/* Header */}
-      <Navbar />
+      <Navbar user={user} />
       {/* Hero Section */}
       <HeroSection />
 
