@@ -44,11 +44,9 @@ export const authOptions: AuthOptions = {
         return true;
       } catch (error) {
         if (error instanceof AxiosError) {
-          return redirect(`/auth/error?message=${error.message}`);
+          return `/auth/error?message=${encodeURIComponent(error.message)}`;
         }
-        return redirect(
-          `/auth/error?message=Something went wrong.please try again!`
-        );
+        return redirect(`/auth/error?message=Something went wrong.please try again!`);
       }
     },
 
