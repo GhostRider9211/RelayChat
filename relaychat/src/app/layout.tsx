@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import {Inter as FontSans} from "next/font/google";
 import { cn } from "@/lib/utils";
+import SessionProvider from "@/providers/SessionProvider";
 
 const inter = FontSans({
   subsets: ["latin"],
@@ -31,7 +32,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
+      <SessionProvider>
+        <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           inter.variable
@@ -39,6 +41,7 @@ export default function RootLayout({
       >
         {children}
       </body>
+      </SessionProvider>
     </html>
   );
 }

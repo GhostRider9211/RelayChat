@@ -12,32 +12,38 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { signIn } from "next-auth/react";
 
-export default function loginModal() {
+const handleGoogleLogin = async () => {
+    signIn("google", {
+      redirect: true,
+      callbackUrl: "/",
+    });
+  };
+
+export default function LoginModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Getting Start</Button>
+        <Button>Getting start</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl ">Welcome to RelayChat</DialogTitle>
+          <DialogTitle className="text-2xl">Welcome to QuickChat</DialogTitle>
           <DialogDescription>
-            RelayChat is a real-time chat application built with Next.js,
-            Prisma, and Socket.IO. It allows you to connect with friends and
-            family in a seamless and interactive way. To get started, please
-            sign in with your Google account.
+            QuickChat makes it effortless to create secure chat links and start
+            conversations in seconds.
           </DialogDescription>
         </DialogHeader>
-        <Button variant="outline">
+        <Button variant="outline" onClick={handleGoogleLogin}>
           <Image
             src="/images/google.png"
-            className="mr-4"
+            className=" mr-4"
             width={25}
             height={25}
-            alt="google_logo"
+            alt="google"
           />
-          continue with google
+          Continue with Google
         </Button>
       </DialogContent>
     </Dialog>
