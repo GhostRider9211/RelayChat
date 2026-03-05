@@ -4,6 +4,7 @@ import "./globals.css";
 import {Inter as FontSans} from "next/font/google";
 import { cn } from "@/lib/utils";
 import SessionProvider from "@/providers/SessionProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = FontSans({
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({
         )}
       >
         {children}
+         <Toaster richColors duration={5000} />
       </body>
       </SessionProvider>
     </html>

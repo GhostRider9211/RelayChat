@@ -1,10 +1,21 @@
-"use client";
-import React from "react";
 
-export default function Dashboard() {
+
+import DashNav from "@/components/dashboard/DashNav";
+import React from "react";
+import { authOptions, CustomSession } from "../api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
+
+
+export default async function dashboard() {
+  const session: CustomSession | null = await getServerSession(authOptions);
+
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold">Dashboard</h1>
+    <div>
+      <DashNav
+        name={session?.user?.name!}
+        image={session?.user?.image ?? undefined}
+      />
+     
     </div>
   );
 }
