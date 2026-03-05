@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { prisma } from "../lib/prsima.js";
+import { prisma } from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 export interface LoginPayLoadType {
   name: string;
@@ -22,26 +22,26 @@ class AuthController {
           data: body,
         });
       }
-      let JWTPayload ={
-        name:body.name,
-        email:body.email,
-        id:findUser.id,
-      }
-      const token = jwt.sign(JWTPayload,process.env.JWT_SECRET as string, {
-        expiresIn:"365d"
-      })
+      let JWTPayload = {
+        name: body.name,
+        email: body.email,
+        id: findUser.id,
+      };
+      const token = jwt.sign(JWTPayload, process.env.JWT_SECRET as string, {
+        expiresIn: "365d",
+      });
       return response.json({
-        message:"Logged in sucessfully",
-        user:{
+        message: "Logged in sucessfully",
+        user: {
           ...findUser,
-          token:`Bearer ${token}`
-        }
-      })
+          token: `Bearer ${token}`,
+        },
+      });
     } catch (error) {
       return response.status(500).json({
-        message:"Something went wrong",
-        error
-      })
+        message: "Something went wrong",
+        error,
+      });
     }
   }
 }
