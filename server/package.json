@@ -27,10 +27,14 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.4.1",
     "@prisma/client": "^7.4.1",
+    "@socket.io/admin-ui": "^0.5.1",
+    "@socket.io/redis-streams-adapter": "^0.3.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "ioredis": "^5.10.0",
     "jsonwebtoken": "^9.0.3",
-    "pg": "^8.19.0"
+    "pg": "^8.19.0",
+    "socket.io": "^4.8.3"
   }
 }
