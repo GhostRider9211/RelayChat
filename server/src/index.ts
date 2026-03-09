@@ -9,16 +9,32 @@ import { setupSocket } from "./socket.js";
 import { createAdapter } from "@socket.io/redis-streams-adapter";
 import redis from "./config/redis.config.js";
 import { instrument } from "@socket.io/admin-ui";
+
+import { connectKafka } from "./config/kafka.config.js";
+import { consumeMessages } from "./helper.js";
+
 const app: Application = express();
 const PORT = process.env.PORT || 7000;
 const server = createServer(app);
-const io = new Server(server,{
-  cors:{
-    origin:"*",
+const io = new Server(server, {
+  cors: {
+    origin: [process.env.CLIENT_APP_URL as string, "https://admin.socket.io"],
+    credentials: true,
   },
-  adapter:createAdapter(redis)
-})
+  adapter: createAdapter(redis)
+});
 
+instrument(io, {
+  auth: false,
+  mode: "development",
+});
+
+async function startServer() {
+  await connectKafka();
+  consumeMessages("chats");
+  console.log("Server starting...");
+}
+startServer();
 // * Middleware
 app.use(cors());
 app.use(express.json());

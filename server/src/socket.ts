@@ -1,31 +1,47 @@
-import {Server} from "socket.io";
-import {Socket} from "socket.io";
+import { Server } from "socket.io";
+import { Socket } from "socket.io";
+import { produceMessage } from "./helper.js";
 
-interface CustomSocket extends Socket{
-room?:string;
+interface CustomSocket extends Socket {
+  room?: string;
 }
-export function setupSocket(io:Server){
-    io.use((socket:CustomSocket,next)=>{
-        const room = socket.handshake.auth.room;
-        
-        if(!room){
-            return next(new Error("Invalid room"));
-        }
-        socket.room = room;
 
-        next(); 
-    })
-    io.on("connection",(socket:CustomSocket)=>{
-        
-        console.log("A user connected with id: ",socket.id);
+export function setupSocket(io: Server) {
+  io.use((socket: CustomSocket, next) => {
+    const room = socket.handshake.auth.room || socket.handshake.headers.room;
 
+    if (!room) {
+      return next(new Error("Invalid room"));
+    }
+    socket.room = room;
 
-        socket.on("message",(data)=>{
-            console.log("The socket message is:",data);
-            io.to(socket.room!).emit("message",data);
+    next();
+  });
+
+  io.on("connection", (socket: CustomSocket) => {
+    console.log("A user connected with id: ", socket.id);
+
+    if (socket.room) {
+      socket.join(socket.room);
+    }
+
+    socket.on("message", async (data) => {
+      console.log("The socket message is:", data);
+
+      try {
+        await produceMessage("chats", {
+          ...data,
+          group_id: socket.room!,
         });
-        socket.on("disconnect",()=>{
-            console.log("A user disconnected with id: ",socket.id);
-        })                          
-    })
+
+        socket.to(socket.room!).emit("message", data);
+      } catch (err) {
+        console.error("Failed to produce message to Kafka:", err);
+      }
+    });
+
+    socket.on("disconnect", () => {
+      console.log("A user disconnected with id: ", socket.id);
+    });
+  });
 }
