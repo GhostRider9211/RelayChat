@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import { Socket } from "socket.io";
-import { produceMessage } from "./helper.js";
+import { saveMessage } from "./helper.js";
 
 interface CustomSocket extends Socket {
   room?: string;
@@ -29,14 +29,14 @@ export function setupSocket(io: Server) {
       console.log("The socket message is:", data);
 
       try {
-        await produceMessage("chats", {
+        await saveMessage({
           ...data,
           group_id: socket.room!,
         });
 
         socket.to(socket.room!).emit("message", data);
       } catch (err) {
-        console.error("Failed to produce message to Kafka:", err);
+        console.error("Failed to save message:", err);
       }
     });
 

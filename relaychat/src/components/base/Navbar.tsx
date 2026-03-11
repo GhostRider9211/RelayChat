@@ -13,9 +13,6 @@ export default function Navbar({ user }: { user?: CustomUser | null }) {
       <div className="flex items-center space-x-2 md:space-x-6 text-gray-700">
         <Link href="/">Home</Link>
         <Link href="#features">Features</Link>
-        <Link href="/dashboard">
-          <Button>Dashboard</Button>
-        </Link>
         {!user ? (
           <LoginModal />
         ) : (
