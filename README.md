@@ -1,7 +1,7 @@
 # RelayChat
 
 RelayChat is a **real-time scalable chat application** built using Socket.io.  
-The system is designed to support **distributed messaging across multiple server instances** using **Kafka for event streaming** and **Redis adapter for horizontal scaling**.
+The system is designed to support **distributed messaging across multiple server instances** using **Redis adapter for horizontal scaling**.
 
 The project demonstrates concepts like **real-time communication, event-driven architecture, and scalable message broadcasting**.
 
@@ -12,7 +12,6 @@ The project demonstrates concepts like **real-time communication, event-driven a
 - Real-time messaging using Socket.io
 - Multi-user chat support
 - Scalable architecture with Redis adapter
-- Event streaming with Kafka
 - Docker-based infrastructure setup
 - Modern React frontend
 
@@ -21,18 +20,20 @@ The project demonstrates concepts like **real-time communication, event-driven a
 ## Tech Stack
 
 ### Frontend
+
 - React
 - TypeScript
 - Tailwind CSS
 
 ### Backend
+
 - Node.js
 - Express.js
 - Socket.IO
 
 ### Infrastructure
+
 - Redis (Socket.IO Redis Adapter for scaling)
-- Kafka (message event streaming)
 - Docker (containerized services)
 
 ---
@@ -43,9 +44,8 @@ RelayChat uses a **distributed event-driven architecture**:
 
 1. Clients connect to the server using **WebSockets (Socket.IO)**.
 2. Messages are emitted to the backend server.
-3. The server publishes chat events to **Kafka topics**.
-4. Other server instances consume these events.
-5. **Redis Adapter synchronizes Socket.IO events across instances**.
+3. The server saves messages directly to the database.
+4. **Redis Adapter synchronizes Socket.IO events across instances**.
 
 This allows the chat system to scale horizontally across multiple backend servers.
 
@@ -58,7 +58,7 @@ RelayChat
 │
 ├── client/        # React frontend
 ├── server/        # Node.js backend
-├── docker/        # Docker services (Kafka, Redis)
+├── docker/        # Docker services (Redis)
 ├── README.md
 ```
 
@@ -99,7 +99,7 @@ npm install
 
 ---
 
-## Running Infrastructure (Kafka + Redis)
+## Running Infrastructure (Redis)
 
 Start services using Docker:
 
@@ -109,7 +109,6 @@ docker-compose up -d
 
 This starts:
 
-- Kafka
 - Redis
 
 ---
