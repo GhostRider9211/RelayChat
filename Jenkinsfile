@@ -13,24 +13,6 @@ pipeline {
             }
         }
 
-        stage('Install & Build: Server') {
-            steps {
-                dir('server') {
-                    sh 'npm ci'
-                    sh 'npm run build'
-                }
-            }
-        }
-
-        stage('Install & Build: Frontend') {
-            steps {
-                dir('relaychat') {
-                    sh 'npm ci'
-                    sh 'npm run build'
-                }
-            }
-        }
-
         stage('Docker Build') {
             steps {
                 withCredentials([
@@ -39,7 +21,8 @@ pipeline {
                 ]) {
                     sh '''
                         cp $SERVER_ENV server/.env
-                        export $(grep -v '^#' $FRONTEND_ENV | xargs)
+                        cp $FRONTEND_ENV relaychat/.env.local
+                        export $(grep -v '^#' relaychat/.env.local | xargs)
                         docker-compose -f $COMPOSE_FILE build
                     '''
                 }
@@ -54,7 +37,8 @@ pipeline {
                 ]) {
                     sh '''
                         cp $SERVER_ENV server/.env
-                        export $(grep -v '^#' $FRONTEND_ENV | xargs)
+                        cp $FRONTEND_ENV relaychat/.env.local
+                        export $(grep -v '^#' relaychat/.env.local | xargs)
                         docker-compose -f $COMPOSE_FILE down --remove-orphans
                         docker-compose -f $COMPOSE_FILE up -d
                     '''
@@ -69,10 +53,10 @@ pipeline {
         }
         failure {
             echo 'Build or deployment failed.'
-            sh 'docker-compose -f $COMPOSE_FILE logs --tail=50'
+            sh 'docker-compose -f $COMPOSE_FILE logs --tail=50 || true'
         }
         cleanup {
-            sh 'docker system prune -f'
+            sh 'docker image prune -f'
         }
     }
 }
