@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 7000;
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: [process.env.CLIENT_APP_URL as string, "https://admin.socket.io"],
+    origin: "*",
     credentials: true,
   },
   adapter: createAdapter(redis),
