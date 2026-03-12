@@ -13,9 +13,14 @@ import { instrument } from "@socket.io/admin-ui";
 const app: Application = express();
 const PORT = process.env.PORT || 7000;
 const server = createServer(app);
+const allowedOrigins = [
+  process.env.CLIENT_APP_URL as string,
+  "https://admin.socket.io",
+].filter(Boolean);
+
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: allowedOrigins,
     credentials: true,
   },
   adapter: createAdapter(redis),
@@ -26,7 +31,10 @@ instrument(io, {
   mode: "development",
 });
 
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.get("/", (req: Request, res: Response) => {
