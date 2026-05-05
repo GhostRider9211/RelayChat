@@ -24,6 +24,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "RealyChat",
   description: "Real time chat application built with Next.js and Socket.IO",
+  icons: {
+    icon: '/logo.svg',
+  },
 };
 
 export default function RootLayout({
