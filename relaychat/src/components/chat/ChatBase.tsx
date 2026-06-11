@@ -46,7 +46,12 @@ export default function ChatBase({
       <ChatSideBar users={users} />
       <div className="w-full md:w-4/5 bg-gradient-to-b from-gray-50 to-white">
         {open ? (
-          <ChatUserDialog open={open} setOpen={setOpen} group={group} />
+          <ChatUserDialog
+            open={open}
+            setOpen={setOpen}
+            group={group}
+            users={users}
+          />
         ) : (
           <ChatNav chatGroup={group} users={users} user={chatUser} />
         )}

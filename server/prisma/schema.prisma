@@ -48,6 +48,7 @@ model GroupUsers {
   name       String
   created_at DateTime  @default(now())
 
+  @@unique([group_id, name], map: "group_users_group_id_name_key")
   @@map("group_users")
 }
 

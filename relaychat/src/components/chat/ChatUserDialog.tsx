@@ -18,10 +18,12 @@ export default function ChatUserDialog({
   open,
   setOpen,
   group,
+  users,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   group: GroupChatType;
+  users: Array<GroupChatUserType> | [];
 }) {
   const params = useParams();
   const [state, setState] = useState({
@@ -41,11 +43,36 @@ export default function ChatUserDialog({
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const name = state.name.trim();
+
+    if (!name) {
+      toast.error("Please enter your name!");
+      return;
+    }
+
+    if (group.passcode != state.passcode) {
+      toast.error("Please enter correct passcode!");
+      return;
+    }
+
     const localData = localStorage.getItem(params["id"] as string);
     if (!localData) {
+      const existingUser = users.find(
+        (user) => user.group_id === params["id"] && user.name === name
+      );
+
+      if (existingUser) {
+        localStorage.setItem(
+          params["id"] as string,
+          JSON.stringify(existingUser)
+        );
+        setOpen(false);
+        return;
+      }
+
       try {
         const { data } = await axios.post(CHAT_GROUP_USERS, {
-          name: state.name,
+          name,
           group_id: params["id"] as string,
         });
         localStorage.setItem(
@@ -54,13 +81,10 @@ export default function ChatUserDialog({
         );
       } catch (error) {
         toast.error("Something went wrong. Please try again!");
+        return;
       }
     }
-    if (group.passcode != state.passcode) {
-      toast.error("Please enter correct passcode!");
-    } else {
-      setOpen(false);
-    }
+    setOpen(false);
   };
 
   return (
