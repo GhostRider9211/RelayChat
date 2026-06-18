@@ -2,22 +2,22 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { getSocket } from "@/lib/socket.config";
 import { v4 as uuidv4 } from "uuid";
-
-interface ChatsProps {
-  group: GroupChatType;
+                       
+interface ChatsProps { 
+  group: GroupChatType; 
   oldMessages: Array<MessageType> | [];
-  chatUser?: GroupChatUserType;
+  chatUser?: GroupChatUserType;                     
 }
-
+                                                     
 export default function Chats({ group, oldMessages, chatUser }: ChatsProps) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Array<MessageType>>(oldMessages);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
+  
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
+ 
   const socket = useMemo(() => {
     const s = getSocket();
     s.auth = { room: group.id };

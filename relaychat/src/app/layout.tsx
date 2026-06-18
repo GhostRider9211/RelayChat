@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RealyChat",
+  title: "RelayChat",
   description: "Real time chat application built with Next.js and Socket.IO",
   icons: {
     icon: '/logo.svg',
